@@ -1,0 +1,43 @@
+class Solution{
+    public:
+    // arr : given array
+    // l : starting index of the array i.e 0
+    // r : ending index of the array i.e size-1
+    // k : find kth smallest element and return using this function
+    int partition(int arr[],int l,int r){
+        int pivot=arr[l];
+        int count=0;
+        for(int i=l+1;i<=r;i++){
+            if(arr[i]<=pivot){
+                count++;
+            }
+        }
+        int pos=l+count;
+        swap(arr[l],arr[pos]);
+        int a=l,b=r;
+        while(a<pos && b>pos){
+            while(arr[a]<=pivot){
+                a++;
+            }
+            while(arr[b]>pivot){
+                b--;
+            }
+            if(a<pos && b>pos){
+                swap(arr[a++],arr[b--]);
+            }
+        }
+        return pos;
+    }
+    void solve(int arr[],int l,int r){
+        if(l>=r){
+            return;
+        }
+        int p=partition(arr,l,r);
+        solve(arr,l,p-1);
+        solve(arr,p+1,r);
+    }
+    int kthSmallest(int arr[], int l, int r, int k) {
+        solve(arr,l,r);
+        return arr[k-1];
+    }
+};
