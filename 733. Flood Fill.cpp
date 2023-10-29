@@ -1,21 +1,25 @@
 class Solution {
+private:
+    void dfs(int row,int col,vector<vector<int>>& images,vector<vector<int>>& image,int pixelvalue,int color){
+        images[row][col]=color;
+        int m=images.size();
+        int n=images[0].size();
+        int x[]={-1,0,0,1};
+        int y[]={0,1,-1,0};
+       for(int i=0;i<4;i++){
+               int nrow=row+x[i];
+               int ncol=col+y[i];
+            if(nrow>=0 && nrow<m && ncol>=0 && ncol<n && image[nrow][ncol]==pixelvalue && images[nrow][ncol]!=color){
+                   dfs(nrow,ncol,images,image,pixelvalue,color);
+               } 
+        }
+    }
 public:
     vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int color) {
-        if(image[sr][sc]==color){
-            return image;
-        }
-        fill(image,sr,sc,image[sr][sc],color);
-        return image;
-    }
-
-    void fill(vector<vector<int>>& image, int sr, int sc,int val, int color){
-        if(sr<0 || sr>=image.size() || sc<0 || sc>=image[0].size() || image[sr][sc]!=val){
-            return;
-        }
-        image[sr][sc]=color;
-        fill(image,sr+1,sc,val,color);
-        fill(image,sr-1,sc,val,color);
-        fill(image,sr,sc+1,val,color);
-        fill(image,sr,sc-1,val,color);
+        int pixelvalue=image[sr][sc];
+        vector<vector<int>> images;
+        images=image;
+        dfs(sr,sc,images,image,pixelvalue,color);
+        return images;
     }
 };
