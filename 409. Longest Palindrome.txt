@@ -1,0 +1,47 @@
+class Solution {
+public:
+    int longestPalindrome(string s) {
+        vector<int> vis(26,0);
+        vector<int> VIS(26,0);
+        priority_queue<pair<int,char>> pq;
+        int n=s.length();
+        for(int i=0;i<n;i++){
+            if(islower(s[i])){
+                vis[s[i]-'a']++;
+            }
+            else{
+                VIS[s[i]-'A']++;
+            }
+        }
+        for(int i=0;i<26;i++){
+            if(vis[i]!=0){
+                char c='a'+ i;
+                pq.push({vis[i],c});
+            }
+            if(VIS[i]!=0){
+                char c='A'+ i;
+                pq.push({VIS[i],c});
+            }
+        }
+        int ans=0;
+        while(!pq.empty()){
+            auto t=pq.top();
+            pq.pop();
+            char c=t.second;
+            int num=t.first;
+            if(num>1 && num%2==0){
+                ans+=num;
+            }
+            else if(num>1 && num%2!=0){
+                ans+=num-1;
+                num=1;
+                pq.push({num,c});
+            }
+            else if(num==1){
+                ans+=1;
+                break;
+            }
+        }
+        return ans;
+    }
+};
