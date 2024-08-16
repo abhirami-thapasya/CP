@@ -1,0 +1,15 @@
+class Solution {
+public:
+    int maxDistance(vector<vector<int>>& arrays) {
+        int mi=10000,ma=-10000,ans=0;
+        for(auto a:arrays){
+            int dif1=ma-a.front();
+            int dif2=a.back()-mi;
+            ans=max(ans,dif1);
+            ans=max(ans,dif2);
+            mi=min(mi,a.front());
+            ma=max(ma,a.back());
+        }
+        return ans;
+    }
+};
